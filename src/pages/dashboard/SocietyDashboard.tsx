@@ -87,8 +87,8 @@ const societies = [
     subtitle: "50th Echoes of Eternity",
     logo: "/society-logos/images-4.png",
     fallbackIcon: "🎭",
-    color: "from-yellow-500/20 to-amber-500/20",
-    borderColor: "border-yellow-500/30",
+    color: "from-purple-500/20 to-indigo-500/20", // Changed from yellow to purple
+    borderColor: "border-purple-500/30", // Changed from yellow to purple
   },
   {
     id: "food-festival",
@@ -139,6 +139,19 @@ const societies = [
 
 const SocietyDashboard = () => {
   const navigate = useNavigate();
+
+  const handleSocietyClick = (societyId: string) => {
+    if (societyId === "saturnalia") {
+      // Directly open the HTML file for Saturnalia
+      window.open('/sat.html', '_blank');
+    } else {
+      navigate(`/dashboard/society/${societyId}`);
+    }
+  };
+
+  const getButtonText = (societyId: string) => {
+    return societyId === "saturnalia" ? "Fill Form" : "View Events";
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#020617] text-white">
@@ -213,7 +226,6 @@ const SocietyDashboard = () => {
             {societies.map((society) => (
               <Card
                 key={society.id}
-                onClick={() => navigate(`/dashboard/society/${society.id}`)}
                 className="group cursor-pointer border-white/10 bg-gradient-to-br bg-white/5 p-6 text-white shadow-xl shadow-black/30 transition hover:-translate-y-2 hover:border-primary/60 hover:shadow-primary/20"
               >
                 <div className="flex flex-col items-center text-center space-y-4">
@@ -228,8 +240,11 @@ const SocietyDashboard = () => {
                     <h3 className="text-xl font-semibold">{society.name}</h3>
                     <p className="text-sm text-white/70 mt-1">{society.subtitle}</p>
                   </div>
-                  <Button className="w-full rounded-full bg-gradient-to-r from-primary to-accent font-semibold shadow-lg shadow-primary/40 transition hover:-translate-y-1">
-                    View Events
+                  <Button 
+                    className="w-full rounded-full bg-gradient-to-r from-primary to-accent font-semibold shadow-lg shadow-primary/40 transition hover:-translate-y-1"
+                    onClick={() => handleSocietyClick(society.id)}
+                  >
+                    {getButtonText(society.id)}
                   </Button>
                 </div>
               </Card>
